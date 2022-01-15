@@ -19,7 +19,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/items")
 public class ItemController {
-
     private final ItemService itemService;
 
     @Autowired
@@ -30,14 +29,12 @@ public class ItemController {
     @GetMapping("")
     public ResponseEntity<?> getItems() {
         List<ItemViewDTO> itemViewDTOList = this.itemService.getAllActiveItems();
-
         return ResponseEntity.ok().body(itemViewDTOList);
     }
 
     @PostMapping("")
     public ResponseEntity<?> createItem(@Valid @RequestBody ItemBindingDTO itemBindingDTO, HttpServletRequest request) throws URISyntaxException {
         Map<String, ItemViewDTO> response = new HashMap<>();
-
         response.put("created", this.itemService.saveNewItem(itemBindingDTO));
         return ResponseEntity.created(new URI(request.getServletPath())).body(response);
     }
@@ -45,7 +42,6 @@ public class ItemController {
     @PatchMapping("/{id}")
     public ResponseEntity<?> editItem(@PathVariable Long id, @Valid @RequestBody ItemBindingDTO itemBindingDTO) throws EntityNotFoundException {
         Map<String, ItemViewDTO> response = new HashMap<>();
-
         response.put("edited", this.itemService.editItem(id, itemBindingDTO));
         return ResponseEntity.ok().body(response);
     }
@@ -53,7 +49,6 @@ public class ItemController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteItem(@PathVariable Long id) throws EntityNotFoundException {
         Map<String, Long> response = new HashMap<>();
-        
         response.put("deleted", this.itemService.deleteItem(id));
         return ResponseEntity.ok().body(response);
     }

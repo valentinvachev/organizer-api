@@ -11,7 +11,6 @@ import org.springframework.web.util.UriTemplate;
 
 @Service
 public class WeatherServiceImpl implements WeatherService {
-
     private final String API_KEY = "e98c93793ea03f874a632f3f4cd1fb1a";
     private final String WEATHER_URL =
             "https://api.openweathermap.org/data/2.5/weather?q={city}&mode=json&units=metric&appid={apiKey}";
