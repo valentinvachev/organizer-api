@@ -19,40 +19,40 @@ public class GlobalHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<?> notFoundException(EntityNotFoundException ex, HttpServletRequest request) {
-        return error(HttpStatus.NOT_FOUND, request.getServletPath(), ex.getMessage());
+        return responseEntityError(HttpStatus.NOT_FOUND, request.getServletPath(), ex.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> methodArgumentNotValidException(MethodArgumentNotValidException ex, HttpServletRequest request) {
         BindingResult bindingErrors = ex.getBindingResult();
         FieldError firstFieldError = bindingErrors.getFieldErrors().get(0);
-        return error(HttpStatus.BAD_REQUEST, request.getServletPath(), firstFieldError.getDefaultMessage());
+        return responseEntityError(HttpStatus.BAD_REQUEST, request.getServletPath(), firstFieldError.getDefaultMessage());
     }
 
     @ExceptionHandler(WebClientResponseException.class)
     public ResponseEntity<?> webClientResponseException(WebClientResponseException ex, HttpServletRequest request) {
-        return error(ex.getStatusCode(), request.getServletPath(), ex.getStatusText());
+        return responseEntityError(ex.getStatusCode(), request.getServletPath(), ex.getStatusText());
     }
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public ResponseEntity<?> missingRequestParameterException(MissingServletRequestParameterException ex, HttpServletRequest request) {
         String errorMessage = String.format("Required request parameter '%s'", ex.getParameterName());
-        return error(HttpStatus.BAD_REQUEST, request.getServletPath(), errorMessage);
+        return responseEntityError(HttpStatus.BAD_REQUEST, request.getServletPath(), errorMessage);
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<?> methodArgumentTypeMismatchException(HttpServletRequest request) {
         String errorMessage = "Bad request";
-        return error(HttpStatus.BAD_REQUEST, request.getServletPath(), errorMessage);
+        return responseEntityError(HttpStatus.BAD_REQUEST, request.getServletPath(), errorMessage);
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<?> httpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException ex, HttpServletRequest request) {
         String errorMessage = "Method not allowed";
-        return error(HttpStatus.METHOD_NOT_ALLOWED, request.getServletPath(), errorMessage);
+        return responseEntityError(HttpStatus.METHOD_NOT_ALLOWED, request.getServletPath(), errorMessage);
     }
 
-    private ResponseEntity<?> error(HttpStatus httpStatus, String path, String message) {
+    private ResponseEntity<?> responseEntityError(HttpStatus httpStatus, String path, String message) {
         return ResponseEntity.status(httpStatus).body(new ErrorBodyInfo(path, message));
     }
 }
