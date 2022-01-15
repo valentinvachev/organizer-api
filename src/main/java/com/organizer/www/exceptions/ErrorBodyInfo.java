@@ -10,10 +10,10 @@ public class ErrorBodyInfo {
     }
 
     public String getUrl() {
-        return url;
+        return this.url;
     }
 
     public String getMessage() {
-        return message;
+        return this.message;
     }
 }

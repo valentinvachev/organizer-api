@@ -1,6 +1,6 @@
 package com.organizer.www.models.views;
 
-public class TaskViewDTO {
+public class ItemViewDTO {
     private Long id;
     private String name;
 
@@ -8,7 +8,7 @@ public class TaskViewDTO {
         return this.id;
     }
 
-    public TaskViewDTO setId(Long id) {
+    public ItemViewDTO setId(Long id) {
         this.id = id;
         return this;
     }
@@ -17,7 +17,7 @@ public class TaskViewDTO {
         return this.name;
     }
 
-    public TaskViewDTO setName(String name) {
+    public ItemViewDTO setName(String name) {
         this.name = name;
         return this;
     }

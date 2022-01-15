@@ -6,8 +6,8 @@ import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "tasks")
-public class Task extends BaseEntity {
+@Table(name = "items")
+public class Item extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
@@ -18,7 +18,7 @@ public class Task extends BaseEntity {
         return this.name;
     }
 
-    public Task setName(String name) {
+    public Item setName(String name) {
         this.name = name;
         return this;
     }
@@ -27,7 +27,7 @@ public class Task extends BaseEntity {
         return this.createdAt;
     }
 
-    public Task setCreatedAt(LocalDateTime createdAt) {
+    public Item setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
         return this;
     }
