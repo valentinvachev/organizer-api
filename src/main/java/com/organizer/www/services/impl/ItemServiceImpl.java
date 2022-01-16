@@ -26,7 +26,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemViewDTO> getAllActiveItems() {
+    public List<ItemViewDTO> getTodoItems() {
         return this.itemRepository.findAllByOrderByCreatedAt().stream()
                 .map(item -> this.modelMapper.map(item, ItemViewDTO.class))
                 .collect(Collectors.toList());
