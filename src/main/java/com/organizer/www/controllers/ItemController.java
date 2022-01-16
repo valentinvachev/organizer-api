@@ -28,8 +28,8 @@ public class ItemController {
 
     @GetMapping("")
     public ResponseEntity<?> getItems() {
-        List<ItemViewDTO> itemViewDTOList = this.itemService.getAllActiveItems();
-        return ResponseEntity.ok().body(itemViewDTOList);
+        List<ItemViewDTO> allTodoItemsDTOList = this.itemService.getTodoItems();
+        return ResponseEntity.ok().body(allTodoItemsDTOList);
     }
 
     @PostMapping("")

@@ -7,7 +7,7 @@ import com.organizer.www.models.views.ItemViewDTO;
 import java.util.List;
 
 public interface ItemService {
-    List<ItemViewDTO> getAllActiveItems();
+    List<ItemViewDTO> getTodoItems();
 
     ItemViewDTO saveNewItem(ItemBindingDTO itemBindingDTO);
 
