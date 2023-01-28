@@ -1,9 +1,9 @@
 spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/organizer_db?useSSL=false&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://${DATABASE_URL}/organizer_db?useSSL=false&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true
     username: root
-    password: root1234
+    password: password
   jpa:
     hibernate:
       ddl-auto: update

@@ -1,0 +1,19 @@
+version: '3'
+services:
+  mysql:
+    image: mysql
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=organizer_db
+      - MYSQL_PASSWORD=password
+  organizer-api:
+    image: organizer-api
+    ports:
+    - 8080:8080
+    environment:
+      - DATABASE_URL=mysql:3306
+    restart: always
+    depends_on:
+      - mysql
