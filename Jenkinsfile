@@ -1,3 +1,4 @@
+
 pipeline {
     agent any
     stages {
@@ -7,7 +8,13 @@ pipeline {
             }
         }
         stage('Test') {
+            when {
+                expression {
+                    env.BRANCH_NAME == 'main' ||  env.BRANCH_NAME == 'master'
+                }
+            }
             steps {
+                echo 'This is branch ${env.BRANCH_NAME}'
                 echo 'Testing..'
             }
         }
@@ -19,10 +26,10 @@ pipeline {
     }
     post {
         always {
-            sh 'The build ends'
+            echo 'The build ends'
         }
         success {
-            sh 'The build is successfully done!'
+            echo 'The build is successfully done!'
         }
     }
 }
