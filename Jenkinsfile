@@ -2,7 +2,7 @@
 pipeline {
     agent any
     environment {     //Custom environments which will be available in all stages
-        DOCKER_TAG = latest
+        DOCKER_TAG = 'latest'
         DOCKER_CREDENTIALS = credentials('github_vachev')
     }
     stages {
