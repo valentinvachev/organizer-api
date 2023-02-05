@@ -17,4 +17,12 @@ pipeline {
             }
         }
     }
+    post {
+        always {
+            sh 'The build ends'
+        }
+        success {
+            sh 'The build is successfully done!'
+        }
+    }
 }
