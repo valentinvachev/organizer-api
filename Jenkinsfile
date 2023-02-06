@@ -1,39 +1,33 @@
 pipeline {
     agent any
-    environment {     //Custom environments which will be available in all stages
-        DOCKER_TAG = 'latest'
-        DOCKER_CREDENTIALS = credentials('github_vachev')
-    }
     parameters {
-        booleanParam(name: 'boolParam', defaultValue: true, description: 'This is boolParam')
+        booleanParam(name: 'skipTests', defaultValue: false, description: 'This is param for skipping tests')
     }
     tools {
         maven 'my-maven'
-        jdk 'jdk 8'
     }
     stages {
-        stage('Build') {
-            steps {
-                echo 'Building..'
-                echo "Building ${env.BRANCH_NAME}"
-            }
-        }
         stage('Test') {
             when {
                 expression {
-//                     env.BRANCH_NAME == 'main' ||  env.BRANCH_NAME == 'master'
-                    params.boolParam == true
+                    params.skipTests == true
                 }
             }
             steps {
-                echo "This is branch ${env.BRANCH_NAME}"
-                echo 'Testing..'
+                echo 'Test phase. Testing ...'
+                sh 'mvn test'
             }
         }
-        stage('Deploy') {
+        stage('Build') {
             steps {
-                echo "Using credentials: ${DOCKER_CREDENTIALS}"
-                echo 'Deploying....'
+              script {
+                if (params.skipTests == true) {
+                    echo 'Building with tests'
+                    sh 'mvn clean package'
+                } else {
+                    echo 'Building without tests'
+                    sh 'mvn clean package -DskipTests'
+                }
             }
         }
     }
