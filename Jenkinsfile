@@ -31,13 +31,13 @@ pipeline {
         }
       }
     }
-    post {
-      always {
-        echo 'The build ends'
-      }
-      success {
-        echo 'The build is successfully done!'
-      }
+  }
+  post {
+    always {
+      echo 'The build ends'
+    }
+    success {
+      echo 'The build is successfully done!'
     }
   }
 }
