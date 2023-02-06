@@ -39,7 +39,7 @@ pipeline {
             withCredentials([usernamePassword(credentialsId: 'github_vachev', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
               sh 'docker login -u $USERNAME -p $PASSWORD'
               sh 'docker build -t valentinvachev/private-app .'
-              sh 'docker valentinvachev/private-app:${DOCKER_TAG}'
+              sh 'docker push valentinvachev/private-app:${DOCKER_TAG}'
             }
         }
     }
