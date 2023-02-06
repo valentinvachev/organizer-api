@@ -1,5 +1,8 @@
 pipeline {
   agent any
+  environment {
+    DOCKER_TAG = 'latest'
+  }
   parameters {
     booleanParam(name: 'skipTests', defaultValue: false, description: 'This is param for skipping tests')
   }
@@ -30,6 +33,15 @@ pipeline {
           }
         }
       }
+    }
+    stage('Deploy image') {
+        steps {
+            withCredentials([usernamePassword(credentialsId: 'github_vachev', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+              sh 'docker login -u $USERNAME -p $PASSWORD'
+              sh 'docker build -t valentinvachev/private-app .'
+              sh 'docker valentinvachev/private-app:${DOCKER_TAG}'
+            }
+        }
     }
   }
   post {
