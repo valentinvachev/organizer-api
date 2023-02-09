@@ -30,7 +30,7 @@ pipeline {
                 def matcher = readFile('pom.xml') =~ '<version>(.+)</version>'
                 def newVersion = matcher[1][1]
                 echo newVersion
-                env.NEW_VERSION_DOCKER = "$BUILD_NUMBER"
+                env.NEW_VERSION_DOCKER = "$newVersion-$BUILD_NUMBER"
             }
         }
     }
