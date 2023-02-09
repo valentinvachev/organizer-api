@@ -29,7 +29,8 @@ pipeline {
                 sh 'mvn build-helper:parse-version versions:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.nextMinorVersion}.\\\${parsedVersion.incrementalVersion} versions:commit'
                 def matcher = readFile('pom.xml') =~ '<version>(.+)</version>'
                 def newVersion = matcher[1][1]
-                env.NEW_VERSION_DOCKER = "$newVersion-$BUILD_VERSION"
+                echo newVersion
+                env.NEW_VERSION_DOCKER = "$BUILD_NUMBER"
             }
         }
     }
