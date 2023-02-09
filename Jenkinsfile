@@ -4,7 +4,6 @@ pipeline {
   agent any
   environment {
     DOCKER_TAG = 'latest'
-    VERSION_FROM_MAVEN = readMavenPom().getVersion()
   }
   parameters {
     booleanParam(name: 'skipTests', defaultValue: false, description: 'This is param for skipping tests')
@@ -30,7 +29,6 @@ pipeline {
                 def version = readFile('pom.xml') =~ '<version>(.+)</version>'
                 def currentVersion = version[0][1]
                 echo "Version will be increased from $currentVersion"
-                echo "Version from Maven ${VERSION_FROM_MAVEN}"
             }
 
         }
