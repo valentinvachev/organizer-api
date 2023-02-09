@@ -28,7 +28,7 @@ pipeline {
             script {
                 def version = readFile('pom.xml') =~ '<version>(.+)</version>'
                 def previousVersion = version[1][1]
-                sh 'mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.nextMinorVersion}.\${parsedVersion.incrementalVersion}\${parsedVersion.qualifier?} versions:commit
+                sh 'mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.nextMinorVersion}.\${parsedVersion.incrementalVersion}\${parsedVersion.qualifier?} versions:commit'
                 def version = readFile('pom.xml') =~ '<version>(.+)</version>'
                 def currentVersion = version[1][1]
                 echo "Version will be increased from $previousVersion to $currentVersion"
