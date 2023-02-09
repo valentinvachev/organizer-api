@@ -27,10 +27,13 @@ pipeline {
         steps {
             script {
                 def version = readFile('pom.xml') =~ '<version>(.+)</version>'
-                def currentVersion = version[0][1]
-                echo "Version will be increased from $currentVersion"
+                def previousVersion = version[1][1]
+                sh 'mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.nextMinorVersion}.\${parsedVersion.incrementalVersion}\${parsedVersion.qualifier?} versions:commit
+                def version = readFile('pom.xml') =~ '<version>(.+)</version>'
+                def currentVersion = version[1][1]
+                echo "Version will be increased from $previousVersion to $currentVersion"
+                env.IMAGE_NAME = "${version}-$BUILD_NUMBER"
             }
-
         }
     }
     stage('Build') {
@@ -51,7 +54,7 @@ pipeline {
             withCredentials([usernamePassword(credentialsId: 'github_vachev', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
               sh 'docker login -u $USERNAME -p $PASSWORD'
               sh 'docker build -t valentinvachev/private-app .'
-              sh 'docker push valentinvachev/private-app:${DOCKER_TAG}'
+              sh "docker push valentinvachev/private-app:${env.IMAGE_NAME}"
             }
         }
     }
