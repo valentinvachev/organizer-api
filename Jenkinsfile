@@ -4,7 +4,6 @@ pipeline {
   agent any
   environment {
     DOCKER_TAG = 'latest'
-    CURRENT_VERSION = readFile('pom.xml') =~ '<version>(.+)</version>'
   }
   parameters {
     booleanParam(name: 'skipTests', defaultValue: false, description: 'This is param for skipping tests')
@@ -26,7 +25,11 @@ pipeline {
     }
     stage('Increase version') {
         steps {
-            echo "Version will be increased from ${CURRENT_VERSION}"
+            script {
+                def version = readFile('pom.xml') =~ '<version>(.+)</version>'
+                echo "Version will be increased from $version"
+            }
+
         }
     }
     stage('Build') {
