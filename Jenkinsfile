@@ -56,6 +56,14 @@ pipeline {
             }
         }
     }
+    stage('Push version to GIT') {
+        steps {
+            script {
+                def author = sh(returnStdout: true, script: "git log -1 --pretty=format:'%an'").trim()
+                echo "$author"
+            }
+        }
+    }
   }
   post {
     always {
