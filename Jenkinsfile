@@ -29,7 +29,7 @@ pipeline {
                 sh 'mvn build-helper:parse-version versions:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.nextMinorVersion}.\\\${parsedVersion.incrementalVersion} versions:commit'
                 def matcher = readFile('pom.xml') =~ '<version>(.+)</version>'
                 def newVersion = matcher[1][1]
-                env.NEW_VERSION_DOCKER = newVersion
+                env.NEW_VERSION_DOCKER = "$newVersion-$BUILD_VERSION"
             }
         }
     }
@@ -51,7 +51,7 @@ pipeline {
             withCredentials([usernamePassword(credentialsId: 'github_vachev', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
               sh 'docker login -u $USERNAME -p $PASSWORD'
               sh 'docker build -t valentinvachev/private-app .'
-              sh "docker push valentinvachev/private-app:${NEW_VERSION_DOCKER}"
+              sh "docker push valentinvachev/private-app:${env.NEW_VERSION_DOCKER}"
             }
         }
     }
