@@ -51,7 +51,7 @@ pipeline {
         steps {
             withCredentials([usernamePassword(credentialsId: 'github_vachev', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
               sh 'docker login -u $USERNAME -p $PASSWORD'
-              sh 'docker build -t valentinvachev/private-app .'
+              sh "docker build -t valentinvachev/private-app:${env.NEW_VERSION_DOCKER} ."
               sh "docker push valentinvachev/private-app:${env.NEW_VERSION_DOCKER}"
             }
         }
