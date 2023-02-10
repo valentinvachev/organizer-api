@@ -26,7 +26,7 @@ pipeline {
     stage('Push version to GIT') {
         steps {
             script {
-                withCredentials([usernamePassword(credentialsId: 'github_token', usernameVariable: 'USERNAME'), passwordVariable: 'PASSWORD')]) {
+                withCredentials([usernamePassword(credentialsId: 'github_token', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                    def author = sh(returnStdout: true, script: "git log -1 --pretty=format:'%an'").trim()
                    echo author
 
