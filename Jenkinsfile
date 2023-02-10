@@ -11,6 +11,7 @@ pipeline {
   tools {
     maven 'my-maven'
   }
+  stages {
     stage('Push version to GIT') {
         steps {
             script {
@@ -30,6 +31,7 @@ pipeline {
             }
         }
     }
+  }
   post {
     always {
       echo 'The build ends'
