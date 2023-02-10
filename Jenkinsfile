@@ -19,12 +19,11 @@ pipeline {
                    def author = sh(returnStdout: true, script: "git log -1 --pretty=format:'%an'").trim()
                    echo author
 
-                   sh 'git config --global user.name "JENKINS_TECHNICAL_USER"'
                    sh 'git status'
-                   sh 'git remote -v'
 
                    sh "git remote set-url origin https://${USERNAME}:${PASSWORD}@github.com/valentinvachev/organizer-api.git"
-                   sh 'git remote -v'
+                   sh 'git config --global user.name "JENKINS_TECHNICAL_USER"'
+                   sh 'git config --global user.email "jenkins@technical.com"'
 
                    sh 'git add .'
                    sh 'git commit -m "Change version"'
