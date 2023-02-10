@@ -30,7 +30,6 @@ pipeline {
             }
         }
     }
-  }
   post {
     always {
       echo 'The build ends'
