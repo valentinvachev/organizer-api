@@ -16,17 +16,19 @@ pipeline {
         steps {
             script {
                 withCredentials([usernamePassword(credentialsId: 'vachev_github', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                    def author = sh(returnStdout: true, script: "git log -1 --pretty=format:'%an'").trim()
-                    echo author
+                   def author = sh(returnStdout: true, script: "git log -1 --pretty=format:'%an'").trim()
+                   echo author
 
-                    if (author == 'JENKINS_TECHNICAL_USER') {
-                        sh 'git config --global user.name "JENKINS_TECHNICAL_USER"'
-                        sh 'git status'
-                        sh 'git remote -v'
+                   sh 'git config --global user.name "JENKINS_TECHNICAL_USER"'
+                   sh 'git status'
+                   sh 'git remote -v'
 
-                        sh "git remote set-url origin https://${USERNAME}:${PASSWORD}@github.com/valentinvachev/organizer-api.git"
-                        sh 'git remote -v'
-                    }
+                   sh "git remote set-url origin https://${USERNAME}:${PASSWORD}@github.com/valentinvachev/organizer-api.git"
+                   sh 'git remote -v'
+
+                   sh 'git add .'
+                   sh 'git commit -m "Change version"'
+                   sh 'git push'
                 }
             }
         }
