@@ -12,17 +12,6 @@ pipeline {
     maven 'my-maven'
   }
   stages {
-    stage('Test') {
-        when {
-          expression {
-            params.skipTests == true
-          }
-        }
-        steps {
-          echo 'Test phase. Testing ...'
-          sh 'mvn test'
-        }
-      }
       stage('Increase version') {
           steps {
               script {
@@ -34,32 +23,10 @@ pipeline {
               }
           }
       }
-      stage('Build') {
-        steps {
-          script {
-            if (params.skipTests == true) {
-              echo 'Building with tests'
-              sh 'mvn clean package'
-            } else {
-              echo 'Building without tests'
-              sh 'mvn clean package -DskipTests'
-            }
-          }
-        }
-      }
-      stage('Deploy image') {
-          steps {
-              withCredentials([usernamePassword(credentialsId: 'github_vachev', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                sh 'docker login -u $USERNAME -p $PASSWORD'
-                sh "docker build -t valentinvachev/private-app:${env.NEW_VERSION_DOCKER} ."
-                sh "docker push valentinvachev/private-app:${env.NEW_VERSION_DOCKER}"
-              }
-          }
-      }
     stage('Push version to GIT') {
         steps {
             script {
-                withCredentials([usernamePassword(credentialsId: 'github_token', usernameVariable: 'USERNAME')]) {
+                withCredentials([usernamePassword(credentialsId: 'github_token', usernameVariable: 'USERNAME'), passwordVariable: 'PASSWORD')]) {
                    def author = sh(returnStdout: true, script: "git log -1 --pretty=format:'%an'").trim()
                    echo author
 
