@@ -59,8 +59,15 @@ pipeline {
     stage('Push version to GIT') {
         steps {
             script {
-                def author = sh(returnStdout: true, script: "git log -1 --pretty=format:'%an'").trim()
-                echo "$author"
+                withCredentials([usernamePassword(credentialsId: 'vachev_github', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    def author = sh(returnStdout: true, script: "git log -1 --pretty=format:'%an'").trim()
+                    echo author
+
+                    if (author == 'JENKINS_TECHNICAL_USER') {
+                        sh 'git config --global user.name "JENKINS_TECHNICAL_USER"'
+                        sh 'git status'
+                    }
+                }
             }
         }
     }
