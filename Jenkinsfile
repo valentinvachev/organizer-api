@@ -59,13 +59,13 @@ pipeline {
     stage('Push version to GIT') {
         steps {
             script {
-                withCredentials([usernamePassword(credentialsId: 'vachev_github', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                withCredentials([usernamePassword(credentialsId: 'github_token', usernameVariable: 'USERNAME')]) {
                    def author = sh(returnStdout: true, script: "git log -1 --pretty=format:'%an'").trim()
                    echo author
 
                    sh 'git status'
 
-                   sh "git remote set-url origin https://${USERNAME}:${PASSWORD}@github.com/valentinvachev/organizer-api.git"
+                   sh "git remote set-url origin https://${USERNAME}@github.com/valentinvachev/organizer-api.git"
                    sh 'git config --global user.name "JENKINS_TECHNICAL_USER"'
                    sh 'git config --global user.email "jenkins@technical.com"'
 
