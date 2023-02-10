@@ -71,7 +71,7 @@ pipeline {
 
                    sh 'git add .'
                    sh 'git commit -m "Change version"'
-                   sh 'git push'
+                   sh 'git push origin HEAD:main'
                 }
             }
         }
